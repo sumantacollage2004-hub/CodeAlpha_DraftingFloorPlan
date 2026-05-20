@@ -1,0 +1,364 @@
+/* ===================================================
+   LAKEWOOD RESIDENCE – FLOOR PLAN STYLESHEET
+   Aesthetic: Blueprint / Technical Drawing / Brutalist Precision
+   =================================================== */
+
+:root {
+  --bg:        #0d1117;
+  --surface:   #111820;
+  --panel:     #0a1520;
+  --border:    #1e3048;
+  --accent:    #00d4ff;
+  --accent2:   #ff6b35;
+  --text:      #c9d8e8;
+  --text-dim:  #4a6a8a;
+  --wall-ext:  #2a5080;
+  --wall-int:  #1e3a5a;
+  --canvas-bg: #071428;
+  --grid:      rgba(0,212,255,0.04);
+  --dim-line:  #ff6b35;
+  --room-fill: rgba(0,212,255,0.03);
+  --font-mono: 'Share Tech Mono', monospace;
+  --font-ui:   'Barlow Condensed', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* ── HEADER ─────────────────────────────────────────── */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: var(--surface);
+  border-bottom: 2px solid var(--accent);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  gap: 1rem;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo-mark {
+  font-size: 2rem;
+  color: var(--accent);
+  line-height: 1;
+  filter: drop-shadow(0 0 8px var(--accent));
+}
+
+.project-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-dim);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+.project-title {
+  font-family: var(--font-ui);
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #fff;
+  line-height: 1;
+}
+
+.header-right {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.meta-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  border-right: 1px solid var(--border);
+  padding-right: 1.5rem;
+}
+
+.meta-block:last-child { border-right: none; padding-right: 0; }
+
+.meta-key {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: var(--text-dim);
+  letter-spacing: 0.2em;
+}
+
+.meta-val {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+}
+
+/* ── WORKSPACE ──────────────────────────────────────── */
+.workspace {
+  display: grid;
+  grid-template-columns: 200px 1fr 220px;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── PANELS ─────────────────────────────────────────── */
+.legend-panel,
+.info-panel {
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  padding: 1.2rem 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.info-panel {
+  border-right: none;
+  border-left: 1px solid var(--border);
+}
+
+.legend-title {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: var(--accent);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  line-height: 1.6;
+}
+
+.swatch {
+  width: 22px;
+  height: 12px;
+  display: inline-block;
+  flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.wall-sw  { background: #2a5080; }
+.int-sw   { background: #1e3a5a; }
+.door-sw  { background: transparent; border: 1px solid var(--accent); }
+.win-sw   { background: rgba(0,212,255,0.3); }
+.furn-sw  { background: rgba(255,107,53,0.25); border-color: var(--accent2); }
+.dim-sw   { background: var(--dim-line); }
+
+.room-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+/* ── BUTTONS ─────────────────────────────────────────── */
+.btn-export {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  padding: 0.55rem 0.8rem;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: background 0.2s, color 0.2s;
+  margin-top: 0.3rem;
+}
+
+.btn-export:hover {
+  background: var(--accent);
+  color: #000;
+}
+
+/* ── CANVAS AREA ────────────────────────────────────── */
+.canvas-area {
+  background: var(--canvas-bg);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 40px 40px;
+  padding: 3rem 2rem 5rem;
+}
+
+#floorCanvas {
+  display: block;
+  box-shadow: 0 0 40px rgba(0,212,255,0.08), 0 0 80px rgba(0,0,0,0.6);
+  border: 1px solid var(--border);
+}
+
+/* ── SCALE BAR ──────────────────────────────────────── */
+.scale-bar {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.scale-segments {
+  display: flex;
+  height: 10px;
+  border: 1px solid var(--text-dim);
+  overflow: hidden;
+}
+
+.seg {
+  width: 30px;
+  background: transparent;
+}
+
+.seg-alt { background: var(--text-dim); }
+
+.scale-label {
+  margin-left: 0.5rem;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+}
+
+/* ── SPEC TABLE ─────────────────────────────────────── */
+.spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+}
+
+.spec-table tr {
+  border-bottom: 1px solid var(--border);
+}
+
+.spec-table td {
+  padding: 0.3rem 0.2rem;
+  color: var(--text-dim);
+}
+
+.spec-table td:last-child {
+  color: var(--text);
+  text-align: right;
+}
+
+/* ── COMPASS ────────────────────────────────────────── */
+.compass {
+  display: flex;
+  justify-content: center;
+  margin: 0.5rem 0;
+}
+
+.compass-ring {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: radial-gradient(circle, var(--surface) 0%, var(--panel) 100%);
+}
+
+.compass-n {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.compass-arrow {
+  font-size: 1.2rem;
+  color: var(--accent);
+  filter: drop-shadow(0 0 4px var(--accent));
+  line-height: 1;
+  margin-top: -2px;
+}
+
+/* ── TITLE BLOCK ────────────────────────────────────── */
+.title-block {
+  margin-top: 1rem;
+  border: 1px solid var(--border);
+  padding: 0.6rem;
+}
+
+.tb-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  padding: 0.2rem 0;
+  border-bottom: 1px solid var(--border);
+  gap: 0.5rem;
+}
+
+.tb-row:last-child { border-bottom: none; }
+
+.tb-row span:first-child { color: var(--text-dim); }
+.tb-row span:last-child  { color: var(--accent); text-align: right; }
+
+/* ── ROOM CHIP ──────────────────────────────────────── */
+.room-chip {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  color: var(--text-dim);
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.room-chip:hover,
+.room-chip.active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── SCROLLBAR ──────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ── ANIMATIONS ─────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.canvas-area { animation: fadeIn 0.6s ease both; }
+.legend-panel { animation: fadeIn 0.4s ease both; }
+.info-panel   { animation: fadeIn 0.5s ease both; }
